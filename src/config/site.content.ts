@@ -2,10 +2,10 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Independent reading platform',
+    tagline: 'Buy and sell across India',
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
+    tagline: 'Classifieds and local deals in one place',
   },
   hero: {
     badge: 'Latest stories and visuals',
