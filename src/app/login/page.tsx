@@ -1,22 +1,22 @@
-import Link from 'next/link'
-import { Bookmark, Building2, FileText, Image as ImageIcon, Sparkles } from 'lucide-react'
+import { Bookmark, FileText, Image as ImageIcon, Tag } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { getProductKind } from '@/design/factory/get-product-kind'
 import { LOGIN_PAGE_OVERRIDE_ENABLED, LoginPageOverride } from '@/overrides/login-page'
+import { LoginForm } from '@/components/auth/login-form'
 
 function getLoginConfig(kind: ReturnType<typeof getProductKind>) {
   if (kind === 'directory') {
     return {
-      shell: 'bg-[#f8fbff] text-slate-950',
-      panel: 'border border-slate-200 bg-white',
-      side: 'border border-slate-200 bg-slate-50',
-      muted: 'text-slate-600',
-      action: 'bg-slate-950 text-white hover:bg-slate-800',
-      icon: Building2,
-      title: 'Access your business dashboard',
-      body: 'Manage listings, verification details, contact info, and local discovery surfaces from one place.',
+      shell: 'bg-[#f2f4f5] text-[#002f34]',
+      panel: 'border border-[#e0e0e0] bg-white shadow-sm',
+      side: 'border border-[#e0e0e0] bg-white',
+      muted: 'text-[#406367]',
+      action: 'bg-[#3a77ff] text-white hover:bg-[#2f65e0]',
+      icon: Tag,
+      title: 'Login to buy & sell in your community',
+      body: 'Access saved searches, manage your ads, and pick up where you left off. Your session is stored on this device after you sign in.',
     }
   }
   if (kind === 'editorial') {
@@ -81,20 +81,15 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className={`rounded-[2rem] p-8 ${config.panel}`}>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Welcome back</p>
-            <form className="mt-6 grid gap-4">
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Email address" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Password" type="password" />
-              <button type="submit" className={`inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold ${config.action}`}>Sign in</button>
-            </form>
-            <div className={`mt-6 flex items-center justify-between text-sm ${config.muted}`}>
-              <Link href="/forgot-password" className="hover:underline">Forgot password?</Link>
-              <Link href="/register" className="inline-flex items-center gap-2 font-semibold hover:underline">
-                <Sparkles className="h-4 w-4" />
-                Create account
-              </Link>
-            </div>
+          <div className={`rounded-2xl p-8 ${config.panel}`}>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#406367]">Welcome back</p>
+            <h2 className="mt-2 text-2xl font-bold tracking-tight">Enter your details</h2>
+            <LoginForm
+              className="mt-6 grid gap-4"
+              actionClass={config.action}
+              mutedClass={config.muted}
+              linkClass={productKind === 'directory' ? 'text-[#3a77ff]' : undefined}
+            />
           </div>
         </section>
       </main>

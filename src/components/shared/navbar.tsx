@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, Sparkles, MapPin, Plus } from 'lucide-react'
+import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, Sparkles, MapPin, Plus, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
@@ -66,26 +66,16 @@ const variantClasses = {
   },
 } as const
 
-const directoryPalette = {
-  'directory-clean': {
-    shell: 'border-b border-slate-200 bg-white/94 text-slate-950 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-xl',
-    logo: 'rounded-2xl border border-slate-200 bg-slate-50',
-    nav: 'text-slate-600 hover:text-slate-950',
-    search: 'border border-slate-200 bg-slate-50 text-slate-600',
-    cta: 'bg-slate-950 text-white hover:bg-slate-800',
-    post: 'border border-slate-200 bg-white text-slate-950 hover:bg-slate-50',
-    mobile: 'border-t border-slate-200 bg-white',
-  },
-  'market-utility': {
-    shell: 'border-b border-[#d7deca] bg-[#f4f6ef]/96 text-[#1f2617] shadow-[0_1px_0_rgba(64,76,34,0.06)] backdrop-blur-xl',
-    logo: 'rounded-xl border border-[#d7deca] bg-white',
-    nav: 'text-[#56604b] hover:text-[#1f2617]',
-    search: 'border border-[#d7deca] bg-white text-[#56604b]',
-    cta: 'bg-[#1f2617] text-[#edf5dc] hover:bg-[#2f3a24]',
-    post: 'border border-[#d7deca] bg-white text-[#1f2617] hover:bg-[#eef2e4]',
-    mobile: 'border-t border-[#d7deca] bg-[#f4f6ef]',
-  },
-} as const
+const directoryQuickLinks = [
+  { label: 'Cars', href: '/search?q=cars&task=classified' },
+  { label: 'Motorcycles', href: '/search?q=motorcycle&task=classified' },
+  { label: 'Mobile Phones', href: '/search?q=phones&task=classified' },
+  { label: 'Houses & Apartments', href: '/search?q=property&task=classified' },
+  { label: 'Beds & Wardrobes', href: '/search?q=furniture&task=classified' },
+  { label: 'TVs, Video - Audio', href: '/search?q=electronics&task=classified' },
+  { label: 'Jobs', href: '/search?q=jobs&task=classified' },
+  { label: 'Services', href: '/search?q=services&task=classified' },
+] as const
 
 export function Navbar() {
   if (NAVBAR_OVERRIDE_ENABLED) {
@@ -108,91 +98,146 @@ export function Navbar() {
   const isDirectoryProduct = recipe.homeLayout === 'listing-home' || recipe.homeLayout === 'classified-home'
 
   if (isDirectoryProduct) {
-    const palette = directoryPalette[(recipe.brandPack === 'market-utility' ? 'market-utility' : 'directory-clean') as keyof typeof directoryPalette]
+    const sellHref = primaryTask ? `/create/${primaryTask.key}` : '/create/classified'
+    const today = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
 
     return (
-      <header className={cn('sticky top-0 z-50 w-full', palette.shell)}>
-        <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          <div className="flex min-w-0 items-center gap-4">
-            <Link href="/" className="flex shrink-0 items-center gap-3">
-              <div className={cn('flex h-12 w-12 items-center justify-center overflow-hidden p-1.5', palette.logo)}>
-                <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+      <header className="sticky top-0 z-50 w-full border-b border-[#e0e0e0] bg-white text-[#002f34] shadow-sm">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <nav className="flex h-[52px] items-center gap-2 sm:gap-4">
+            <Link href="/" className="flex shrink-0 items-center gap-1.5">
+              <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-md border border-[#e8e8e8] bg-white p-1">
+                <img src="/favicon.png?v=20260401" alt="" width="32" height="32" className="h-full w-full object-contain" />
               </div>
-              <div className="min-w-0 hidden sm:block">
-                <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>
-                <span className="block text-[10px] uppercase tracking-[0.24em] opacity-60">{siteContent.navbar.tagline}</span>
-              </div>
+              <span className="text-2xl font-extrabold leading-none tracking-tight text-[#3a77ff]">
+                {SITE_CONFIG.name.slice(0, 1)}
+                {SITE_CONFIG.name.slice(1).toLowerCase()}
+              </span>
             </Link>
 
-            <div className="hidden items-center gap-5 xl:flex">
-              {primaryNavigation.slice(0, 4).map((task) => {
-                const isActive = pathname.startsWith(task.route)
-                return (
-                  <Link key={task.key} href={task.route} className={cn('text-sm font-semibold transition-colors', isActive ? 'text-foreground' : palette.nav)}>
-                    {task.label}
-                  </Link>
-                )
-              })}
+            <div className="hidden items-center gap-1 rounded-sm border border-[#002f34]/20 px-2 py-1.5 sm:flex" title="Location">
+              <MapPin className="h-4 w-4 text-[#002f34]" />
+              <span className="text-sm font-medium">India</span>
+              <ChevronDown className="h-4 w-4 opacity-60" />
             </div>
-          </div>
 
-          <div className="hidden min-w-0 flex-1 items-center justify-center lg:flex">
-            <div className={cn('flex w-full max-w-xl items-center gap-3 rounded-full px-4 py-3', palette.search)}>
-              <Search className="h-4 w-4" />
-              <span className="text-sm">Find businesses, spaces, and local services</span>
-              <div className="ml-auto hidden items-center gap-1 text-xs opacity-75 md:flex">
-                <MapPin className="h-3.5 w-3.5" />
-                Local discovery
+            <form action="/search" method="get" className="mx-auto hidden min-w-0 max-w-2xl flex-1 items-center gap-0 md:flex">
+              <input type="hidden" name="task" value="classified" />
+              <div className="flex min-w-0 flex-1 items-center overflow-hidden rounded-sm border-2 border-[#002f34] bg-white pl-3">
+                <Search className="h-4 w-4 shrink-0 text-[#002f34]/60" />
+                <input
+                  name="q"
+                  type="search"
+                  autoComplete="off"
+                  placeholder={'Search "Cars"'}
+                  className="h-10 min-w-0 flex-1 border-0 bg-transparent px-2.5 text-sm text-[#002f34] outline-none placeholder:text-[#406367]/70"
+                />
               </div>
-            </div>
-          </div>
+              <button
+                type="submit"
+                className="grid h-10 w-12 shrink-0 place-items-center rounded-r-sm border-2 border-l-0 border-[#3a77ff] bg-[#3a77ff] text-white hover:bg-[#2f65e0]"
+                aria-label="Search"
+              >
+                <Search className="h-5 w-5" />
+              </button>
+            </form>
 
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            {primaryTask ? (
-              <Link href={primaryTask.route} className="hidden items-center gap-2 rounded-full border border-current/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] opacity-75 md:inline-flex">
-                <Sparkles className="h-3.5 w-3.5" />
-                {primaryTask.label}
+            <div className="ml-auto flex shrink-0 items-center gap-0.5 sm:gap-2">
+              {isAuthenticated ? (
+                <NavbarAuthControls sellHref={sellHref} />
+              ) : (
+                <div className="flex items-center gap-0.5 sm:gap-2">
+                  <Button variant="ghost" size="sm" asChild className="h-9 gap-1.5 rounded-md px-2 text-[#002f34] hover:bg-[#f2f4f5]">
+                    <Link href="/login">
+                      <User className="h-4 w-4" />
+                      <span className="hidden sm:inline">Login</span>
+                    </Link>
+                  </Button>
+                  <Link
+                    href={sellHref}
+                    className="inline-flex items-center gap-1 rounded-full border-[3px] border-transparent bg-white px-3 py-1.5 text-sm font-extrabold text-[#002f34] [background:linear-gradient(white,white)_padding-box,linear-gradient(100deg,#ffd000,#3a77ff,#23e5db)_border-box] shadow-sm hover:opacity-95"
+                  >
+                    <Plus className="h-4 w-4 font-bold" />
+                    SELL
+                  </Link>
+                </div>
+              )}
+
+              <Button variant="ghost" size="icon" className="h-9 rounded-md md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Open menu">
+                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </Button>
+            </div>
+          </nav>
+
+          <div className="hidden h-11 items-center justify-between border-t border-[#f0f0f0] pr-0 text-sm md:flex">
+            <div className="flex min-w-0 flex-1 items-center gap-2">
+              <Link
+                href="/classifieds"
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-sm bg-[#3a77ff] px-3 py-1.5 font-bold uppercase tracking-wide text-white hover:bg-[#2f65e0]"
+              >
+                <Menu className="h-4 w-4" />
+                All categories
               </Link>
-            ) : null}
-
-            {isAuthenticated ? (
-              <NavbarAuthControls />
-            ) : (
-              <div className="hidden items-center gap-2 md:flex">
-                <Button variant="ghost" size="sm" asChild className="rounded-full px-4">
-                  <Link href="/login">Sign In</Link>
-                </Button>
-                <Button size="sm" asChild className={cn('rounded-full', palette.cta)}>
-                  <Link href="/register">
-                    <Plus className="mr-1 h-4 w-4" />
-                    Add Listing
-                  </Link>
-                </Button>
+              <div className="ml-1 flex min-w-0 items-center gap-1 overflow-x-auto pr-2">
+                {directoryQuickLinks.map((item) => {
+                  const Icon = item.icon
+                  return (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      className="shrink-0 rounded-md px-2 py-1 font-medium text-[#002f34] hover:bg-[#f2f4f5] whitespace-nowrap"
+                    >
+                      {item.label}
+                    </Link>
+                  )
+                })}
               </div>
-            )}
-
-            <Button variant="ghost" size="icon" className="rounded-full lg:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
+            </div>
+            <div className="shrink-0 pl-2 text-sm font-medium text-[#406367]">{today}</div>
           </div>
-        </nav>
+        </div>
 
         {isMobileMenuOpen && (
-          <div className={palette.mobile}>
-            <div className="space-y-2 px-4 py-4">
-              <div className={cn('mb-3 flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium', palette.search)}>
-                <Search className="h-4 w-4" />
-                Find businesses, spaces, and services
+          <div className="border-t border-[#e0e0e0] bg-white md:hidden">
+            <form action="/search" method="get" className="px-4 pt-3">
+              <input type="hidden" name="task" value="classified" />
+              <div className="flex items-center overflow-hidden rounded-sm border-2 border-[#002f34]">
+                <input
+                  name="q"
+                  type="search"
+                  placeholder={'Search "Cars"'}
+                  className="h-10 min-w-0 flex-1 border-0 bg-transparent px-3 text-sm outline-none"
+                />
+                <button type="submit" className="h-10 w-11 shrink-0 bg-[#3a77ff] text-white" aria-label="Search">
+                  <Search className="mx-auto h-4 w-4" />
+                </button>
               </div>
+            </form>
+            <div className="max-h-[70vh] space-y-1 overflow-y-auto px-2 py-2">
               {mobileNavigation.map((item) => {
                 const isActive = pathname.startsWith(item.href)
                 return (
-                  <Link key={item.name} href={item.href} onClick={() => setIsMobileMenuOpen(false)} className={cn('flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors', isActive ? 'bg-foreground text-background' : palette.post)}>
-                    <item.icon className="h-5 w-5" />
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={cn('flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-semibold', isActive ? 'bg-[#3a77ff] text-white' : 'text-[#002f34] hover:bg-[#f2f4f5]')}
+                  >
+                    <item.icon className="h-4 w-4" />
                     {item.name}
                   </Link>
                 )
               })}
+              {directoryQuickLinks.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block rounded-md px-3 py-2 text-sm font-medium text-[#002f34] hover:bg-[#f2f4f5]"
+                >
+                  {item.label}
+                </Link>
+              ))}
             </div>
           </div>
         )}
