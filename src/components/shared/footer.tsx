@@ -81,58 +81,127 @@ export function Footer() {
   }
 
   if (recipe.footer === 'dense-footer') {
+    const popular = ['Kolkata', 'Mumbai', 'Chennai', 'Pune', 'Bengaluru', 'Delhi', 'Ahmedabad']
+    const trending = ['Bhubaneswar', 'Hyderabad', 'Chandigarh', 'Nashik', 'Indore', 'Kochi', 'Jaipur']
     return (
-      <footer className="border-t border-white/10 bg-[linear-gradient(180deg,#07111f_0%,#0b1a2e_100%)] text-white">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr_1fr]">
-            <div className="rounded-[2rem] border border-white/10 bg-white/5 p-7">
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/12 bg-white/8 p-1.5">
-                  <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
-                </div>
-                <div>
-                  <p className="text-lg font-semibold">{SITE_CONFIG.name}</p>
-                  <p className="text-xs uppercase tracking-[0.24em] text-slate-400">{siteContent.footer.tagline}</p>
-                </div>
-              </div>
-              <p className="mt-5 max-w-md text-sm leading-7 text-slate-300">{SITE_CONFIG.description}</p>
-              {primaryTask ? (
-                <Link href={primaryTask.route} className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#8df0c8] px-4 py-2.5 text-sm font-semibold text-[#07111f] hover:bg-[#77dfb8]">
-                  Explore {primaryTask.label}
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              ) : null}
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-3">
+      <footer className="text-[#002f34]">
+        <div className="bg-[#ebeeef]">
+          <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Surfaces</h3>
-                <ul className="mt-4 space-y-3 text-sm text-slate-200">
-                  {footerLinks.platform.map((item: any) => (
-                    <li key={item.name}><Link href={item.href} className="flex items-center gap-2 hover:text-white">{item.icon ? <item.icon className="h-4 w-4" /> : null}{item.name}</Link></li>
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#406367]">Popular locations</h3>
+                <ul className="mt-4 space-y-2.5 text-sm text-[#002f34]">
+                  {popular.map((city) => (
+                    <li key={city}>
+                      <Link href={`/search?q=${encodeURIComponent(city)}&task=classified`} className="hover:underline">
+                        {city}
+                      </Link>
+                    </li>
                   ))}
                 </ul>
               </div>
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Resources</h3>
-                <ul className="mt-4 space-y-3 text-sm text-slate-200">
-                  {footerLinks.resources.map((item) => (
-                    <li key={item.name}><Link href={item.href} className="hover:text-white">{item.name}</Link></li>
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#406367]">Trending locations</h3>
+                <ul className="mt-4 space-y-2.5 text-sm text-[#002f34]">
+                  {trending.map((city) => (
+                    <li key={city}>
+                      <Link href={`/search?q=${encodeURIComponent(city)}&task=classified`} className="hover:underline">
+                        {city}
+                      </Link>
+                    </li>
                   ))}
                 </ul>
               </div>
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Connect</h3>
-                <div className="mt-4 flex gap-3">
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#406367]">About us</h3>
+                <ul className="mt-4 space-y-2.5 text-sm">
+                  {[
+                    { name: 'About', href: '/about' },
+                    { name: 'Careers', href: '/careers' },
+                    { name: 'Contact us', href: '/contact' },
+                    { name: 'Press', href: '/press' },
+                  ].map((item) => (
+                    <li key={item.name}>
+                      <Link href={item.href} className="text-[#002f34] hover:underline">
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#406367]">{SITE_CONFIG.name}</h3>
+                <ul className="mt-4 space-y-2.5 text-sm text-[#002f34]">
+                  <li>
+                    <Link href="/help" className="hover:underline">
+                      Help
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/site-map" className="hover:underline">
+                      Sitemap
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy" className="hover:underline">
+                      Legal &amp; privacy
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#406367]">Follow us</h3>
+                <div className="mt-4 flex flex-wrap gap-2">
                   {socialLinks.map((item) => (
-                    <Link key={item.name} href={item.href} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 bg-white/8 p-2.5 text-slate-200 hover:bg-white/12 hover:text-white">
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full border border-[#cad3d4] bg-white p-2 text-[#002f34] shadow-sm hover:bg-[#f2f4f5]"
+                    >
                       <item.icon className="h-4 w-4" />
                     </Link>
                   ))}
                 </div>
+                <p className="mt-4 text-xs text-[#406367]">Get the app: use your site on mobile for the best experience.</p>
+              </div>
+            </div>
+            <div className="mt-10 border-t border-[#d8d8d8] pt-6">
+              <div className="flex items-center gap-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded border border-[#d8d8d8] bg-white p-1">
+                  <img src="/favicon.png?v=20260401" alt="" width="32" height="32" className="h-full w-full object-contain" />
+                </div>
+                <div>
+                  <p className="text-sm font-extrabold text-[#002f34]">{SITE_CONFIG.name.toLowerCase()}</p>
+                  <p className="text-xs text-[#406367]">{siteContent.footer.tagline}</p>
+                </div>
+                {primaryTask ? (
+                  <Link href={primaryTask.route} className="ml-auto hidden text-sm font-bold text-[#3a77ff] sm:inline-flex sm:items-center sm:gap-1 hover:underline">
+                    Browse {primaryTask.label}
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                ) : null}
               </div>
             </div>
           </div>
-          <div className="mt-10 border-t border-white/10 pt-5 text-sm text-slate-400">&copy; {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.</div>
+        </div>
+        <div className="bg-[#002f34] py-4 text-center text-xs text-white/80 sm:px-6 sm:text-left">
+          <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 sm:flex-row sm:items-center">
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 sm:justify-start">
+              {['Marketplace', 'Classifieds', 'Trust and safety'].map((t) => (
+                <span key={t} className="text-white/70">
+                  {t}
+                </span>
+              ))}
+            </div>
+            <p className="text-white/90">
+              &copy; 2006–{new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.
+            </p>
+            <div className="hidden gap-3 text-white/70 sm:flex" aria-hidden>
+              <span className="h-1 w-1 rounded-full bg-white/40" />
+            </div>
+          </div>
         </div>
       </footer>
     )

@@ -1,6 +1,6 @@
 import { ContentImage } from '@/components/shared/content-image'
 import Link from 'next/link'
-import { ArrowUpRight, ExternalLink, FileText, Mail, MapPin, Tag } from 'lucide-react'
+import { ArrowUpRight, ExternalLink, FileText, Heart, Mail, MapPin, Tag } from 'lucide-react'
 import type { SitePost } from '@/lib/site-connector'
 import { CATEGORY_OPTIONS, normalizeCategory } from '@/lib/categories'
 import type { TaskKey } from '@/lib/site-config'
@@ -113,6 +113,68 @@ export function TaskPostCard({
   const { recipe } = getFactoryState()
   const isDirectoryProduct = recipe.homeLayout === 'listing-home' || recipe.homeLayout === 'classified-home'
   const isDirectorySurface = isDirectoryProduct && (variant === 'listing' || variant === 'classified' || variant === 'profile')
+
+  if (isDirectorySurface && variant === 'classified') {
+    const c = post.content as Record<string, unknown>
+    const loc =
+      (typeof c.location === 'string' && c.location) ||
+      (typeof c.address === 'string' && c.address) ||
+      (typeof c.city === 'string' && c.city) ||
+      'Your city'
+    const rawPrice = c.price
+    let priceNum = 0
+    if (typeof rawPrice === 'number' && !Number.isNaN(rawPrice)) priceNum = rawPrice
+    else if (typeof rawPrice === 'string') {
+      const n = parseFloat(String(rawPrice).replace(/[^\d.]/g, ''))
+      if (!Number.isNaN(n)) priceNum = n
+    }
+    if (!priceNum) {
+      const seed = post.id.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0)
+      priceNum = 15000 + (seed % 250000)
+    }
+    const year = typeof c.year === 'string' || typeof c.year === 'number' ? String(c.year) : '2026'
+    const km = typeof c.mileage === 'string' || typeof c.mileage === 'number' ? String(c.mileage) : '0'
+    const spec = `${year} - ${km} km`
+    const when = post.publishedAt || post.createdAt
+    const dateLine = when
+      ? new Date(when).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }).toUpperCase()
+      : 'TODAY'
+    const featured = post.id.length > 0 && post.id.charCodeAt(0) % 3 === 0
+
+    return (
+      <Link href={href} className="group flex h-full flex-col overflow-hidden rounded-md border border-[#e0e0e0] bg-white transition hover:shadow-md">
+        <div className="relative aspect-[16/11] overflow-hidden bg-[#f2f4f5]">
+          <ContentImage
+            src={image}
+            alt={altText}
+            fill
+            sizes={imageSizes}
+            quality={75}
+            className="object-cover transition duration-500 group-hover:scale-[1.03]"
+            intrinsicWidth={960}
+            intrinsicHeight={720}
+          />
+          <span className="pointer-events-none absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/80 bg-white/95 text-[#002f34] shadow-sm">
+            <Heart className="h-4 w-4" strokeWidth={1.8} />
+          </span>
+          {featured ? (
+            <span className="absolute bottom-2 left-2 rounded-sm bg-[#ffd000] px-2 py-0.5 text-[10px] font-extrabold uppercase text-[#002f34]">
+              Featured
+            </span>
+          ) : null}
+        </div>
+        <div className="flex flex-1 flex-col p-3">
+          <p className="text-lg font-extrabold text-[#002f34]">₹ {priceNum.toLocaleString('en-IN')}</p>
+          <p className="mt-0.5 text-xs text-[#406367]">{spec}</p>
+          <h3 className="mt-1 line-clamp-2 text-sm font-medium leading-snug text-[#002f34]">{post.title}</h3>
+          <div className="mt-2 flex items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-wide text-[#406367]">
+            <span className="min-w-0 truncate">{loc.toUpperCase()}</span>
+            <span className="shrink-0">{dateLine}</span>
+          </div>
+        </div>
+      </Link>
+    )
+  }
 
   if (isDirectorySurface) {
     const cardTone = recipe.brandPack === 'market-utility'
