@@ -138,11 +138,6 @@ export function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/site-map" className="hover:underline">
-                      Sitemap
-                    </Link>
-                  </li>
-                  <li>
                     <Link href="/privacy" className="hover:underline">
                       Legal &amp; privacy
                     </Link>
