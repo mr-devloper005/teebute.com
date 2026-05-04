@@ -1,7 +1,5 @@
 import Link from 'next/link'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ClassifiedPageShell, ClassifiedCard, ClassifiedSectionHeading, classifiedTheme } from '@/components/shared/classified-page-shell'
-import { mockTeamMembers } from '@/data/mock-data'
 import { SITE_CONFIG } from '@/lib/site-config'
 import { Building2, Handshake, MapPinned, ShieldCheck, Sparkles, Users } from 'lucide-react'
 
@@ -100,38 +98,6 @@ export default function AboutPage() {
           })}
         </div>
       </div>
-
-      {mockTeamMembers.length > 0 ? (
-        <div className="mt-12">
-          <div className="flex items-end justify-between gap-4">
-            <ClassifiedSectionHeading eyebrow="Meet the team" title="People keeping the marketplace human" />
-            <Link href="/careers" className={classifiedTheme.link}>
-              Open roles →
-            </Link>
-          </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {mockTeamMembers.map((member) => (
-              <ClassifiedCard key={member.id}>
-                <div className="flex items-center gap-3">
-                  <Avatar className="h-12 w-12 border border-[#e0e0e0]">
-                    <AvatarImage src={member.avatar} alt={member.name} />
-                    <AvatarFallback className="bg-[#3a77ff] text-white">{member.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-bold text-[#002f34]">{member.name}</p>
-                    <p className="truncate text-xs text-[#406367]">{member.role}</p>
-                  </div>
-                </div>
-                <p className="mt-3 text-sm leading-6 text-[#406367]">{member.bio}</p>
-                <p className="mt-3 inline-flex items-center gap-1 text-xs text-[#406367]">
-                  <MapPinned className="h-3.5 w-3.5" />
-                  {member.location}
-                </p>
-              </ClassifiedCard>
-            ))}
-          </div>
-        </div>
-      ) : null}
 
       <div className="mt-12 grid gap-4 rounded-md bg-[#3a77ff] p-8 text-white sm:grid-cols-[1fr_auto] sm:items-center">
         <div>

@@ -8,6 +8,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import { siteIdentity } from '@/config/site.identity'
 
 const channels = [
   {
@@ -137,7 +138,7 @@ export default function ContactPage() {
                 <Mail className="mt-0.5 h-4 w-4 text-[#3a77ff]" />
                 <div>
                   <p className="font-bold text-[#002f34]">Email</p>
-                  <p className="text-[#406367]">support@example.com · partners@example.com</p>
+                  <p className="text-[#406367]">{siteIdentity.contactEmail}</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
