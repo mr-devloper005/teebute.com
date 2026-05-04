@@ -121,17 +121,6 @@ export function TaskPostCard({
       (typeof c.address === 'string' && c.address) ||
       (typeof c.city === 'string' && c.city) ||
       'Your city'
-    const rawPrice = c.price
-    let priceNum = 0
-    if (typeof rawPrice === 'number' && !Number.isNaN(rawPrice)) priceNum = rawPrice
-    else if (typeof rawPrice === 'string') {
-      const n = parseFloat(String(rawPrice).replace(/[^\d.]/g, ''))
-      if (!Number.isNaN(n)) priceNum = n
-    }
-    if (!priceNum) {
-      const seed = post.id.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0)
-      priceNum = 15000 + (seed % 250000)
-    }
     const year = typeof c.year === 'string' || typeof c.year === 'number' ? String(c.year) : '2026'
     const km = typeof c.mileage === 'string' || typeof c.mileage === 'number' ? String(c.mileage) : '0'
     const spec = `${year} - ${km} km`
@@ -164,8 +153,7 @@ export function TaskPostCard({
           ) : null}
         </div>
         <div className="flex flex-1 flex-col p-3">
-          <p className="text-lg font-extrabold text-[#002f34]">₹ {priceNum.toLocaleString('en-IN')}</p>
-          <p className="mt-0.5 text-xs text-[#406367]">{spec}</p>
+          <p className="text-xs text-[#406367]">{spec}</p>
           <h3 className="mt-1 line-clamp-2 text-sm font-medium leading-snug text-[#002f34]">{post.title}</h3>
           <div className="mt-2 flex items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-wide text-[#406367]">
             <span className="min-w-0 truncate">{loc.toUpperCase()}</span>
