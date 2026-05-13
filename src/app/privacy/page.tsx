@@ -70,15 +70,6 @@ export default function PrivacyPage() {
       }
       breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Legal & privacy' }]}
     >
-      <ClassifiedCard className="bg-[#002f34] text-white">
-        <p className="text-xs font-bold uppercase tracking-wider text-white/70">Last updated</p>
-        <p className="mt-1 text-base font-bold">March 16, 2026 · Version 4.2</p>
-        <p className="mt-3 text-sm leading-6 text-white/80">
-          This page summarises our full Privacy Policy. The complete legal document is available on request from our
-          privacy team.
-        </p>
-      </ClassifiedCard>
-
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
         {principles.map((p) => {
           const Icon = p.icon
@@ -138,18 +129,7 @@ export default function PrivacyPage() {
             </ul>
           </ClassifiedCard>
 
-          <ClassifiedCard className="bg-[#3a77ff] text-white">
-            <h3 className="text-lg font-bold">Need to delete your data?</h3>
-            <p className="mt-2 text-sm text-white/90">
-              Open settings and choose &quot;Delete my account&quot;. We&apos;ll process your request within 30 days.
-            </p>
-            <Link
-              href="/contact?topic=privacy"
-              className="mt-4 inline-flex w-fit items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-bold text-[#3a77ff] hover:bg-[#eef3ff]"
-            >
-              Contact privacy team
-            </Link>
-          </ClassifiedCard>
+          
         </div>
       </div>
     </ClassifiedPageShell>

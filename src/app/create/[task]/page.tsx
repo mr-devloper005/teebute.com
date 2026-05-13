@@ -360,9 +360,11 @@ export default function CreateTaskPage() {
             <div className="rounded-md border border-[#e0e0e0] bg-white p-6 shadow-sm sm:p-8">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge className="bg-[#3a77ff] text-white hover:bg-[#3a77ff]">{taskConfig.label}</Badge>
-                <Badge variant="outline" className="border-[#cdd2d3] text-[#406367]">
-                  Saved on this device
-                </Badge>
+                {!isClassified ? (
+                  <Badge variant="outline" className="border-[#cdd2d3] text-[#406367]">
+                    Saved on this device
+                  </Badge>
+                ) : null}
               </div>
 
               <h2 className="mt-5 text-lg font-extrabold text-[#002f34]">Include some details</h2>
