@@ -9,11 +9,11 @@ import { REGISTER_PAGE_OVERRIDE_ENABLED, RegisterPageOverride } from '@/override
 function getRegisterConfig(kind: ReturnType<typeof getProductKind>) {
   if (kind === 'directory') {
     return {
-      shell: 'bg-[#f8fbff] text-slate-950',
-      panel: 'border border-slate-200 bg-white',
-      side: 'border border-slate-200 bg-slate-50',
-      muted: 'text-slate-600',
-      action: 'bg-slate-950 text-white hover:bg-slate-800',
+      shell: 'bg-[#f2f4f5] text-[#002f34]',
+      panel: 'border border-[#e0e0e0] bg-white shadow-sm',
+      side: 'border border-[#e0e0e0] bg-[#ebeeef]',
+      muted: 'text-[#406367]',
+      action: 'bg-[#3a77ff] text-white hover:bg-[#2f65e0]',
       icon: Building2,
       title: 'Create a business-ready account',
       body: 'List services, manage locations, and activate trust signals with a proper directory workflow.',
@@ -84,10 +84,10 @@ export default function RegisterPage() {
           <div className={`rounded-[2rem] p-8 ${config.panel}`}>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Create account</p>
             <form className="mt-6 grid gap-4">
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Full name" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Email address" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Password" type="password" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="What are you creating or publishing?" />
+              <input className="h-12 rounded-xl border border-[#cdd2d3] bg-white px-4 text-sm text-[#002f34] placeholder:text-[#7a8989]" placeholder="Full name" />
+              <input className="h-12 rounded-xl border border-[#cdd2d3] bg-white px-4 text-sm text-[#002f34] placeholder:text-[#7a8989]" placeholder="Email address" />
+              <input className="h-12 rounded-xl border border-[#cdd2d3] bg-white px-4 text-sm text-[#002f34] placeholder:text-[#7a8989]" placeholder="Password" type="password" />
+              <input className="h-12 rounded-xl border border-[#cdd2d3] bg-white px-4 text-sm text-[#002f34] placeholder:text-[#7a8989]" placeholder="What are you creating or publishing?" />
               <button type="submit" className={`inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold ${config.action}`}>Create account</button>
             </form>
             <div className={`mt-6 flex items-center justify-between text-sm ${config.muted}`}>

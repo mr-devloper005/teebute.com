@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { FileText, Building2, LayoutGrid, Tag, Github, Twitter, Linkedin, Image as ImageIcon, User, ArrowRight, Sparkles } from 'lucide-react'
+import { FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, User, ArrowRight, Sparkles } from 'lucide-react'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import { siteContent } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
@@ -45,12 +45,6 @@ const footerLinks = {
   ],
 }
 
-const socialLinks = [
-  { name: 'Twitter', href: 'https://twitter.com', icon: Twitter },
-  { name: 'GitHub', href: 'https://github.com', icon: Github },
-  { name: 'LinkedIn', href: 'https://linkedin.com', icon: Linkedin },
-]
-
 export function Footer() {
   if (FOOTER_OVERRIDE_ENABLED) {
     return <FooterOverride />
@@ -81,37 +75,11 @@ export function Footer() {
   }
 
   if (recipe.footer === 'dense-footer') {
-    const popular = ['Kolkata', 'Mumbai', 'Chennai', 'Pune', 'Bengaluru', 'Delhi', 'Ahmedabad']
-    const trending = ['Bhubaneswar', 'Hyderabad', 'Chandigarh', 'Nashik', 'Indore', 'Kochi', 'Jaipur']
     return (
       <footer className="text-[#002f34]">
         <div className="bg-[#ebeeef]">
           <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
-              <div>
-                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#406367]">Popular locations</h3>
-                <ul className="mt-4 space-y-2.5 text-sm text-[#002f34]">
-                  {popular.map((city) => (
-                    <li key={city}>
-                      <Link href={`/search?q=${encodeURIComponent(city)}&task=classified`} className="hover:underline">
-                        {city}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#406367]">Trending locations</h3>
-                <ul className="mt-4 space-y-2.5 text-sm text-[#002f34]">
-                  {trending.map((city) => (
-                    <li key={city}>
-                      <Link href={`/search?q=${encodeURIComponent(city)}&task=classified`} className="hover:underline">
-                        {city}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-2">
               <div>
                 <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#406367]">About us</h3>
                 <ul className="mt-4 space-y-2.5 text-sm">
@@ -119,7 +87,7 @@ export function Footer() {
                     { name: 'About', href: '/about' },
                     { name: 'Careers', href: '/careers' },
                     { name: 'Contact us', href: '/contact' },
-                    { name: 'Press', href: '/press' },
+                 
                   ].map((item) => (
                     <li key={item.name}>
                       <Link href={item.href} className="text-[#002f34] hover:underline">
@@ -143,23 +111,6 @@ export function Footer() {
                     </Link>
                   </li>
                 </ul>
-              </div>
-              <div>
-                <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#406367]">Follow us</h3>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {socialLinks.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded-full border border-[#cad3d4] bg-white p-2 text-[#002f34] shadow-sm hover:bg-[#f2f4f5]"
-                    >
-                      <item.icon className="h-4 w-4" />
-                    </Link>
-                  ))}
-                </div>
-                <p className="mt-4 text-xs text-[#406367]">Get the app: use your site on mobile for the best experience.</p>
               </div>
             </div>
             <div className="mt-10 border-t border-[#d8d8d8] pt-6">
