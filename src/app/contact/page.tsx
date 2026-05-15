@@ -35,11 +35,6 @@ const channels = [
   },
 ]
 
-const offices = [
-  { city: 'Mumbai', address: 'Bandra Kurla Complex, Mumbai 400051', hours: 'Mon – Fri · 10am – 7pm' },
-  { city: 'Bengaluru', address: 'Koramangala 4th Block, Bengaluru 560034', hours: 'Mon – Fri · 10am – 7pm' },
-  { city: 'Delhi NCR', address: 'Cyber City, Gurugram 122002', hours: 'Mon – Fri · 10am – 7pm' },
-]
 
 export default function ContactPage() {
   const { toast } = useToast()
@@ -89,59 +84,11 @@ export default function ContactPage() {
           <p className="mt-2 text-sm text-[#406367]">We reply within one business day.</p>
           <ContactLeadForm />
         </ClassifiedCard>
-
-        <div className="grid gap-4">
-          <ClassifiedCard>
-            <ClassifiedSectionHeading eyebrow="Reach us directly" title="Other ways to talk" />
-            <ul className="mt-5 space-y-4 text-sm">
-              <li className="flex items-start gap-3">
-                <Mail className="mt-0.5 h-4 w-4 text-[#3a77ff]" />
-                <div>
-                  <p className="font-bold text-[#002f34]">Email</p>
-                  <p className="text-[#406367]">{siteIdentity.contactEmail}</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <Phone className="mt-0.5 h-4 w-4 text-[#3a77ff]" />
-                <div>
-                  <p className="font-bold text-[#002f34]">Phone</p>
-                  <p className="text-[#406367]">1800-000-000 · Toll free</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <MessageCircle className="mt-0.5 h-4 w-4 text-[#3a77ff]" />
-                <div>
-                  <p className="font-bold text-[#002f34]">Chat</p>
-                  <p className="text-[#406367]">In-app chat for buyers and sellers, 24/7</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <Clock className="mt-0.5 h-4 w-4 text-[#3a77ff]" />
-                <div>
-                  <p className="font-bold text-[#002f34]">Support hours</p>
-                  <p className="text-[#406367]">Mon – Sat · 9am – 9pm IST</p>
-                </div>
-              </li>
-            </ul>
-          </ClassifiedCard>
-
-          <ClassifiedCard>
-            <ClassifiedSectionHeading eyebrow="Offices" title="Where to find us" />
-            <ul className="mt-5 space-y-3">
-              {offices.map((o) => (
-                <li key={o.city} className="rounded-md border border-[#e0e0e0] bg-[#f8f9fa] p-4">
-                  <p className="text-sm font-bold text-[#002f34]">{o.city}</p>
-                  <p className="mt-0.5 inline-flex items-center gap-1 text-xs text-[#406367]">
-                    <MapPin className="h-3.5 w-3.5" />
-                    {o.address}
-                  </p>
-                  <p className="mt-1 text-xs text-[#406367]">{o.hours}</p>
-                </li>
-              ))}
-            </ul>
-          </ClassifiedCard>
-        </div>
       </div>
+
+
+
+    
     </ClassifiedPageShell>
   )
 }

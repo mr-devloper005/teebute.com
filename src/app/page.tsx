@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, Bookmark, Building2, Car, FileText, Home, Image as ImageIcon, LayoutGrid, Smartphone, Tag, User, Wrench, Bike, Armchair, Briefcase } from 'lucide-react'
 import { ContentImage } from '@/components/shared/content-image'
@@ -138,6 +138,10 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
   void _brandPack
   const feed = (listingPosts.length ? listingPosts : classifiedPosts).slice(0, 20)
   const featuredTaskKey: TaskKey = listingPosts.length ? 'listing' : 'classified'
+  const spotlightPost = feed[0]
+  const spotlightMeta = getPostMeta(spotlightPost)
+  const spotlightHref = spotlightPost ? getTaskHref(featuredTaskKey, spotlightPost.slug) : '/classifieds'
+  const spotlightImage = getPostImage(spotlightPost)
   const withCta: Array<SitePost | 'cta'> = []
   let ctaPlaced = false
   feed.forEach((post, index) => {
@@ -156,12 +160,26 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
       <section className="border-b border-[#e8e8e8] bg-white">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="overflow-hidden rounded-md border border-[#e0e0e0] bg-[#ebeeef]">
-            <div className="flex min-h-[180px] items-center justify-center px-4 py-10 sm:min-h-[220px]">
-              <div className="text-center">
-                <p className="text-sm font-semibold text-[#406367]">Spotlight deals &amp; top picks</p>
-                <p className="mt-1 text-xs text-[#406367]/80">Promo area — add campaign artwork when ready</p>
+            <Link href={spotlightHref} className="group relative block min-h-[180px] sm:min-h-[220px]">
+              <div className="absolute inset-0">
+                <ContentImage
+                  src={spotlightImage}
+                  alt={spotlightPost?.title || 'Spotlight deals and top picks'}
+                  fill
+                  className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+                />
               </div>
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#002f34]/80 via-[#002f34]/45 to-[#002f34]/15" />
+              <div className="relative flex min-h-[180px] flex-col justify-end px-5 py-5 text-white sm:min-h-[220px] sm:px-7">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/85">Spotlight deals &amp; top picks</p>
+                <h3 className="mt-2 line-clamp-2 max-w-2xl text-xl font-extrabold leading-tight sm:text-2xl">
+                  {spotlightPost?.title || 'Discover fresh picks from your local marketplace'}
+                </h3>
+                <p className="mt-2 text-sm text-white/85">
+                  {[spotlightMeta.category, spotlightMeta.location].filter(Boolean).join(' - ') || 'Browse verified offers, new arrivals, and trending ads near you.'}
+                </p>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -253,6 +271,20 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
                 )
               })}
             </div>
+            {classifiedPosts.length > 0 ? (
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {classifiedPosts.slice(0, 4).map((post) => (
+                  <TaskPostCard
+                    key={`classified-more-${post.id}`}
+                    post={post}
+                    href={getTaskHref('classified', post.slug)}
+                    taskKey="classified"
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="mt-8 text-sm text-[#406367]">No classifieds nearby yet. Check back soon.</p>
+            )}
           </div>
         </section>
       ) : null}
@@ -539,3 +571,6 @@ export default async function HomePage() {
     </div>
   )
 }
+
+
+

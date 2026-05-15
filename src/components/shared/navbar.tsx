@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, Sparkles, MapPin, Plus, ChevronDown } from 'lucide-react'
+import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, Sparkles, MapPin, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
@@ -117,8 +117,6 @@ export function Navbar() {
 
             <div className="hidden items-center gap-1 rounded-sm border border-[#002f34]/20 px-2 py-1.5 sm:flex" title="Location">
               <MapPin className="h-4 w-4 text-[#002f34]" />
-              <span className="text-sm font-medium">India</span>
-              <ChevronDown className="h-4 w-4 opacity-60" />
             </div>
 
             <form action="/search" method="get" className="mx-auto hidden min-w-0 max-w-2xl flex-1 items-center gap-0 md:flex">
